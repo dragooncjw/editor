@@ -1,0 +1,24 @@
+{
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "changesets": "^1.0.2",
+    "chevrotain": "^10.1.2",
+    "diff_match_patch": "^0.1.1",
+    "nearley": "^2.20.1",
+    "next": "latest",
+    "per": "0.1.7",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "rxjs": "^7.5.6",
+    "slate": "^0.82.1",
+    "slate-react": "^0.82.2"
+  },
+  "devDependencies": {
+    "eslint-config-prettier": "^8.5.0"
+  }
+}

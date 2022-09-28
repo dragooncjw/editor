@@ -1,0 +1,49 @@
+.x-root {
+    outline: none;
+
+    background: rgb(42, 39, 52);
+    color: rgb(154, 134, 253);
+    padding: 12px 8px;
+    width: 400px;
+}
+
+.x-token {
+    margin: 0 2px;
+}
+
+.x-token-text {
+    transition: color .1s;
+}
+
+.x-type-data {
+
+}
+
+.x-type-comma {
+    color: #61afef;
+}
+
+.x-type-data span[contenteditable=false] {
+    background: rgb(217 245 214 / 85%);
+    padding: 0 10px;
+    border-radius: 10px;
+    display: inline-block;
+    height: 20px;
+    line-height: 20px;
+    font-size: 14px;
+    color: #186010;
+    margin: 0 3px;
+}
+
+.x-type-unknown {
+    color: #e06c75;
+}
+
+.x-type-lbracket, .x-type-rbracket {
+    color: #aaa;
+    padding: 0 2px;
+}
+
+.x-type-lbracket:hover, .x-type-rbracket:hover {
+    background-color: #eee;
+}

@@ -1,0 +1,22 @@
+graph TB
+    Start-->|init|caret.saveSelection
+    caret.saveSelection -->loopTokens
+    loopTokens --> IsDeleted
+    IsDeleted -- Yes --> manager.removeToken
+    IsDeleted -- No --> IsEmpty
+    IsEmpty -- Yes --> token.destroy
+    IsEmpty -- No --> tokenize
+    tokenize --> newTokens.length
+    newTokens.length -- 1 --> typeChanged
+    typeChanged -- Yes --> token.updateType
+    token.updateType --> caret.restoreSelection
+
+    newTokens.length -- >1--> insertNewTokens
+    insertNewTokens --> caret.updatePos
+    caret.updatePos --> End;
+
+    caret.restoreSelection --> End;
+
+    manager.removeToken --> End;
+    token.destroy --> End;
+    typeChanged -- No --> End;

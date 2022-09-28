@@ -1,0 +1,67 @@
+classDiagram
+    Editor --> Manager
+    Editor --> Caret
+    Editor --> Keyboard
+
+    Manager o-- Token
+
+    class Editor {
+        event$: Subject;
+        lexer: Lexer;
+        originTokens: Token[];
+        $root: HtmlDivElement;
+        manager: Manager;
+        caret: Caret;
+        keyboard: Keyboard;
+        +init();
+    }
+
+
+    class Caret {
+        editor: Editor;
+        offset: number;
+        +prev();
+        +next();
+        +getEditorLen();
+        +resetEmpty();
+        +updatePos(offset);
+        +saveSelection();
+        +restoreSelection();
+    }
+
+    class Keyboard {
+        editor: Editor;
+        isComposition: boolean;
+        +keydown(e);
+        +keyup(e);
+        +mousedown(e);
+        +mouseup(e);
+        +backspace(e);
+        +arrowRightAndDown(e);
+        +arrowLeftAndUp(e);
+    }
+
+    class Manager {
+        editor: Editor;
+        tokens: Token[];
+        currentToken: Token;
+        +insertToken(index, token, replace);
+        +insertToDOM(token, position, target);
+        +removeToken(token);
+        +composeToken(meta);
+        +getTokenByChildNodeIndex(childNode);
+        +updateTokens();
+    }
+
+    class Token {
+        editor: Editor;
+        meta: Meta;
+        $host: Span;
+        $textHost: Span;
+        get text();
+        get isEmpty();
+        get type();
+        +initDOM();
+        +destory();
+        +updateType();
+    }
