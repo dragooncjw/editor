@@ -1,0 +1,152 @@
+classDiagram
+    Node --> Rect
+    Doc --> Range
+    Doc --> Rect
+    Doc --> Frame
+    Node <|-- Frame
+    Node <|-- Line
+    Node <|-- PositionedWord
+    Node <|-- PositionedChar
+    class Rect {
+        l: number
+        t: number
+        w: number
+        h: number
+        r: number
+        b: number
+        +contains(x, y) boolean
+        +stroke(ctx) void
+        +fill(ctx) void
+        +offset(x, y) Rect
+        +equals(other) boolean
+        +center() (x, y)
+    }
+
+    class Run {
+        text: string
+        size: number
+        font: string
+        color: string
+        bold: boolean
+        italic: boolean
+        underline: boolean
+        strikeout: boolean
+        align: string
+        script: string
+    }
+
+    class Node {
+        type: string
+        _children: Node[]
+        _parent: Node
+        _left: number
+        _top: number
+        +children() Node[]
+        +parent() Node
+        +first() Node
+        +last() Node
+        +next() Node
+        +previous() Node
+        +byOrdinal(index) Node
+        +byCoordinate(x, y) Node
+        +draw(ctx, viewport) void
+        +parentOfType(type) Node
+        +bounds() Rect
+        +finalize?()
+    }
+
+    class Part {
+        run?: unknown
+        isNewLine: boolean
+        width: number
+        ascent: number
+        descent: number
+    }
+
+    class Character {
+        _runs:
+        +equals(other) boolean
+        +cut(upTo)
+    }
+
+    class PositionedChar {
+        type: 'character'
+        +parent() Word
+    }
+
+    class PositionedWord {
+        type: 'word'
+        +children() PositionedChar[]
+        +parent() Line
+        +parts(eachPart) Part[]
+        +realiseCharacters() void
+    }
+
+    class Line {
+        type: 'line'
+        +parent() Doc
+        +children() PositionedWord[]
+        length: number
+        actualWidth: number
+        positionedWords: PositionedWord[]
+    }
+
+    class Range {
+        doc: Doc
+        start: number
+        end: number
+        +parts(emit, list) void
+        +clear() number
+        +setText(text) number
+        +runs(emit) void
+        +plainText() string
+        +save() string
+        +getFormatting() string
+        +setFormatting(attribute, value) void
+    }
+
+    class Frame {
+        type: 'frame'
+        +children() Line[]
+        +parent() Doc
+        +actualWidth() number
+    }
+
+    class Doc {
+        type: 'document'
+        _width: number
+        selection: Object<(start:number, end:number)>
+        caretVisible: boolean
+        +codes?(code, data)
+        +customCodes?(code, data, allCodes) void
+        +selectionChanged()
+        +contentChanged()
+        +editFilters?
+        +load(runs, takeFocus) void
+        +layout() void
+        +range(start, end) Range
+        +documentRange() Range
+        +selectedRange() Range
+        +paragraphRange() Range
+        +save()
+        +insert(text, takeFocus) void
+        +modifyInsertFormatting(text) void
+        +applyInsertFormatting(text) void
+        +wordOrdinal(index) number
+        +wordContainingOrdinal(ordinal) Object<(word: Word, ordinal: number, index: number, offset: number)>
+        +runs(emit, range) void
+        +spliceWordsWithRuns(wordIndex, count, runs)
+        +splice(start, end, text) number
+        +registerEditFilter(filter) void
+        +width(width) void
+        +children() Frame[]
+        +toggleCaret() boolean
+        +getCaretCoords(ordinal) Rect
+        +byCoordinate(x, y) Rect
+        +drawSelection(ctx, hasFocus) void
+        +notifySelectionChanged(takeFocus) void
+        +select(ordinal, ordinalEnd, takeFocus) void
+        +performUndo(redo) void
+        +canUndo(redo) void
+        +transaction(perform) void
+    }

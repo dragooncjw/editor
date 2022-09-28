@@ -1,0 +1,34 @@
+@startuml
+
+class Rect {
+    l: number
+    t: number
+    w: number
+    h: number
+    r: number
+    b: number
+    + contains(x, y):boolean
+    + stroke(ctx)
+    + fill(ctx)
+    + offset(x, y)
+    + equals(other)
+    + center()
+}
+
+class Node {
+    children: Node[]
+    parent: Node
+    first: Node
+    last: Node
+    next: Node
+    previous: Node
+    +byOrdinal(index):Node
+    +byCoordinate(x, y):Node
+    +draw(ctx, viewport):void
+    +parentOfType(type):Node
+    +bounds():Rect
+}
+
+
+
+@enduml

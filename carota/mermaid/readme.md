@@ -1,0 +1,7 @@
+工具： https://mermaid-js.github.io/mermaid/#/classDiagram
+
+
+mmd -i uml.mmd -o uml.svg
+
+
+live editor: https://mermaid-js.github.io/mermaid-live-editor/edit#pako:eNptkctOAzEMRX8lygpE5wdGbBBtJRasukORkCcxU2vygDxUQZl_J5MhUmjxyjnXvrKdM5dOIe-51BDClmD0YIRlOR4sGdDs_rvr2DbJ6ZruKRyv6QsOHv7gnt2RjQxGvMSH6MmObESr0Lfi0hKeweT05vZCMBCxwjJ2Ge-8giWq7YAwPTrtfCOFE5naXMBHAjlVMreuy3qNa7fsEOgLn-weMTaCBLuD-K9HOUY72uCcZhReT6RVg32yTT_fcIPeAKn8M6Vb8HhEg4L3OVX4BklHwYWdc2l6V_kiO0XRed5Hn3DDIUV3-LSyvtea3_9d4fwDLGSaMg
