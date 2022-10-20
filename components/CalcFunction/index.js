@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import { updateFunctionParamCursor$ } from './observables';
 
-import { functionParamsCount } from '../CalcEditorX2/lexer';
+import { functionParamsCount, functionExampleDesc } from '../CalcEditorX2/lexer';
 import { getToken } from './utils';
 
 export default function CalcFunction() {
@@ -52,7 +52,7 @@ export default function CalcFunction() {
                 </>
             )}{')'}<br />
     <span style={{width: 213, background: '#f5f6f7', fontSize: 12, padding: '2px 8px', borderRadius: 4, marginTop: 10}}>
-        示例： DATE(2000, 1, 1) = 2000/01/01
+        示例： {functionExampleDesc[functionType]}
     </span>
     </div>
     {errorInfo ? <div>CST Error: {errorInfo}</div> : null}

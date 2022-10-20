@@ -15,12 +15,8 @@ const getOffsetSum = (token) => {
   }
 }
 
-export const dfsSetFunctionType = (root, functionType, idx) => {
-  const currentNode = root
-
-  // 只有clauseParams的时候才设置idx，括号外就不触发识别了。
-  if (currentNode.name === 'clauseParams') {
-    let childrenArr = []
+const executeClauseParams = (currentNode, functionType) => {
+  let childrenArr = []
     // 1. 获取所有value的item
     Object.values(currentNode.children).forEach(item => {
       childrenArr = childrenArr.concat(item)
@@ -37,36 +33,55 @@ export const dfsSetFunctionType = (root, functionType, idx) => {
       }
       dfsSetFunctionType(item, functionType, paramIndex)
     })
-  } else if (currentNode.name === "calcClause") {
+}
+
+const executeCalcClause = (currentNode, functionType, idx) => {
+  currentNode.functionType = functionType
+  currentNode.idx = idx
+
+  const newFunctionType = currentNode.children.FunctionType[0].image
+
+  currentNode.children.FunctionType[0].functionType = newFunctionType
+  currentNode.children.FunctionType[0].idx = 0
+
+  dfsSetFunctionType(currentNode.children.bracketRule[0], newFunctionType, 0)
+}
+
+const executeDefaults = (currentNode, functionType, idx) => {
+  if (!isEmpty(currentNode.children)) {
+    Object.keys(currentNode.children).forEach(key => {
+      const itemArr = currentNode.children[key]
+      itemArr.forEach((item, index) => {
+        if (!item.image) {
+          currentNode.children[key][index].functionType = functionType
+          currentNode.children[key][index].idx = idx
+
+          dfsSetFunctionType(item, functionType, idx)
+        } else {
+          currentNode.children[key][index].functionType = functionType
+          currentNode.children[key][index].idx = idx
+        }
+      })
+    })
+  } else {
     currentNode.functionType = functionType
     currentNode.idx = idx
+  }
+}
 
-    const newFunctionType = currentNode.children.FunctionType[0].image
+export const dfsSetFunctionType = (root, functionType, idx) => {
+  const currentNode = root
 
-    currentNode.children.FunctionType[0].functionType = newFunctionType
-    currentNode.children.FunctionType[0].idx = 0
-
-    dfsSetFunctionType(currentNode.children.bracketRule[0], newFunctionType, 0)
-  } else {
-    if (!isEmpty(currentNode.children)) {
-      Object.keys(currentNode.children).forEach(key => {
-        const itemArr = currentNode.children[key]
-        itemArr.forEach((item, index) => {
-          if (!item.image) {
-            currentNode.children[key][index].functionType = functionType
-            currentNode.children[key][index].idx = idx
-
-            dfsSetFunctionType(item, functionType, idx)
-          } else {
-            currentNode.children[key][index].functionType = functionType
-            currentNode.children[key][index].idx = idx
-          }
-        })
-      })
-    } else {
-      currentNode.functionType = functionType
-      currentNode.idx = idx
-    }
+  switch (currentNode.name) {
+    case 'clauseParams':
+      executeClauseParams(currentNode, functionType);
+      break;
+    case 'calcClause':
+      executeCalcClause(currentNode, functionType, idx);
+      break;
+    default:
+      executeDefaults(currentNode, functionType, idx);
+      break;
   }
 }
 

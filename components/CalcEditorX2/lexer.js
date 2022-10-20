@@ -9,6 +9,12 @@ export const functionParamsCount = {
     DAY: ['测试入参1', '测试入参2'],
 }
 
+export const functionExampleDesc = {
+    DATE: 'DATE(2000, 1, 1) = 2000/01/01',
+    DATEIF: 2,
+    DAY: ['DAY(测试入参1, 测试入参2)'],
+}
+
 const datas = ['单选', '日期', '多选', '附件', 'Select', 'Picker', 'Attachment'];
 
 export const Unknown = createToken({ name: 'Unknown', pattern: /(\w|[\u4e00-\u9fa5]|[^\x00-\xff])+/ });
